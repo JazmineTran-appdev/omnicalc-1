@@ -50,9 +50,10 @@ class ApplicationController < ActionController::Base
   def calculate_payment
     # params = {"user_apr"=>"5.42", "user_years"=>"4", "user_pv"=>"5"}
 
-    apr = params.fetch("user_apr").to_f
-    #@apr_result = sprintf("%.4f%%", apr.to_f)
-    @apr_result = apr.to_s(:percentage)
+    apr = params.fetch("user_apr").to_f.round(4)
+
+    # precision lets you add decimal places!
+    @apr_result = apr.to_s(:percentage, { :precision => 4 })
     @years = params.fetch("user_years").to_i
     principal =params.fetch("user_pv").to_f
     @pv = principal.to_s(:currency)

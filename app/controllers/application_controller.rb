@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  require 'active_support'
+
   def blank_square_form
 
     render({ :template => "calculation_templates/square_form.html.erb" })
@@ -46,11 +48,14 @@ class ApplicationController < ActionController::Base
   end
 
   def calculate_payment
-    # params {"user_apr"=>"5.42", "user_years"=>"4", "user_pv"=>"5"}
+    # params = {"user_apr"=>"5.42", "user_years"=>"4", "user_pv"=>"5"}
 
-    @apr = 
-    @years = 
-    @principal =
+    apr = params.fetch("user_apr").to_f
+    #@apr_result = sprintf("%.4f%%", apr.to_f)
+    @apr_result = apr.to_s(:percentage)
+    @years = params.fetch("user_years").to_i
+    principal =params.fetch("user_pv").to_f
+    @pv = principal.to_s(:currency)
     @payment =
     render({ :template => "calculation_templates/payment_results.html.erb"})
   end
